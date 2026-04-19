@@ -58,22 +58,63 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         "$<TARGET_FILE_DIR:${PROJECT_NAME}>/modules"
 )
 
+# --- Patch library ---
 add_library(patch STATIC IMPORTED)
-add_library(gen_license STATIC IMPORTED)
 
 set_target_properties(patch PROPERTIES
     IMPORTED_CONFIGURATIONS "RELEASE;DEBUG;MINSIZEREL"
-    IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/Release/libpatch.a"
-    IMPORTED_LOCATION_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/Debug/libpatch.a"
-    IMPORTED_LOCATION_MINSIZREL "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/Minimum-Size-Release/libpatch.a"
+    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/patch/include"
 )
+
+# --- Patch lib paths ---
+if(WIN32)
+    set_target_properties(patch PROPERTIES
+        IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/windows/Release/libpatch.a"
+        IMPORTED_LOCATION_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/windows/Debug/libpatch.a"
+        IMPORTED_LOCATION_MINSIZEREL "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/windows/Minimum-Size-Release/libpatch.a"
+    )
+elseif(APPLE)
+    set_target_properties(patch PROPERTIES
+        IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/macos/Release/libpatch.a"
+        IMPORTED_LOCATION_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/macos/Debug/libpatch.a"
+        IMPORTED_LOCATION_MINSIZEREL "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/macos/Minimum-Size-Release/libpatch.a"
+    )
+elseif(UNIX)
+    set_target_properties(patch PROPERTIES
+        IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/linux/Release/libpatch.a"
+        IMPORTED_LOCATION_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/linux/Debug/libpatch.a"
+        IMPORTED_LOCATION_MINSIZEREL "${CMAKE_CURRENT_SOURCE_DIR}/patch/lib/linux/Minimum-Size-Release/libpatch.a"
+    )
+endif()
+
+# --- gen_license library ---
+add_library(gen_license STATIC IMPORTED)
 
 set_target_properties(gen_license PROPERTIES
     IMPORTED_CONFIGURATIONS "RELEASE;DEBUG;MINSIZEREL"
-    IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/Release/libpatch_license.a"
-    IMPORTED_LOCATION_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/Debug/libpatch_license.a"
-    IMPORTED_LOCATION_MINSIZREL "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/Minimum-Size-Release/libpatch_license.a"
+    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/include"
 )
+
+# --- gen_license lib paths ---
+if(WIN32)
+    set_target_properties(gen_license PROPERTIES
+        IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/windows/Release/libpatch_license.a"
+        IMPORTED_LOCATION_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/windows/Debug/libpatch_license.a"
+        IMPORTED_LOCATION_MINSIZEREL "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/windows/Minimum-Size-Release/libpatch_license.a"
+    )
+elseif(APPLE)
+    set_target_properties(gen_license PROPERTIES
+        IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/macos/Release/libpatch_license.a"
+        IMPORTED_LOCATION_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/macos/Debug/libpatch_license.a"
+        IMPORTED_LOCATION_MINSIZEREL "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/macos/Minimum-Size-Release/libpatch_license.a"
+    )
+elseif(UNIX)
+    set_target_properties(gen_license PROPERTIES
+        IMPORTED_LOCATION_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/linux/Release/libpatch_license.a"
+        IMPORTED_LOCATION_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/linux/Debug/libpatch_license.a"
+        IMPORTED_LOCATION_MINSIZEREL "${CMAKE_CURRENT_SOURCE_DIR}/gen_license/lib/linux/Minimum-Size-Release/libpatch_license.a"
+    )
+endif()
 
 target_include_directories(C64KERNALGenesis
     PRIVATE
