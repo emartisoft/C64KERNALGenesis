@@ -51,12 +51,30 @@ qt_generate_deploy_app_script(
 )
 install(SCRIPT ${deploy_script})
 
-# Build sonrası klasörü kopyala
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/modules"
-        "$<TARGET_FILE_DIR:${PROJECT_NAME}>/modules"
-)
+if(APPLE)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources/modules"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/modules"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources/modules"
+    )
+else()
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/modules"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/modules"
+    )
+endif()
+
+if(APPLE)
+    set(MACOSX_BUNDLE_ICON_FILE c64kernalgenesis.icns)
+
+    set_source_files_properties(${CMAKE_SOURCE_DIR}/c64kernalgenesis.icns
+        PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+
+    target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/c64kernalgenesis.icns)
+endif()
 
 # --- Patch library ---
 add_library(patch STATIC IMPORTED)

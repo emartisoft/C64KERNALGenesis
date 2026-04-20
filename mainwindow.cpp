@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionC_Balloon_Sprite->setChecked(checkedBalloon);
 
     // defaults
-    QString mp(appLocalDir()+"/modules");
+    QString mp(modulesPath());
     baDir  = mp.toUtf8();
     selectedModuleIndex = 1;
     selectedModuleName = "just_colors";
@@ -895,7 +895,11 @@ void MainWindow::on_bTestRomFile_clicked()
 // IMPORT ZIP AND M64 FILES VIA DRAG-DROP
 QString MainWindow::modulesPath() const
 {
+#ifdef Q_OS_MACOS
+    return QDir(QCoreApplication::applicationDirPath()).filePath("../Resources/modules/");
+#else
     return QDir(QApplication::applicationDirPath()).filePath("modules");
+#endif
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)

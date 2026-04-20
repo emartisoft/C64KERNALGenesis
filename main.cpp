@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+#ifndef Q_OS_MAC
     QString appDir = QCoreApplication::applicationDirPath();
     QString modulesDirPath = appDir + "/modules";
     QDir modulesDir(modulesDirPath);
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
     if (!modulesDir.exists()) {
         modulesDir.mkpath(".");
     }
+#endif
 
     app.setStyle("fusion");
 
