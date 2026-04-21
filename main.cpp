@@ -6,7 +6,7 @@
 #include <QTimer>
 #include "singleapplication.h"
 #include "splashscreen.h"
-
+#include "paths.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,6 +27,14 @@ int main(int argc, char *argv[])
     if (!modulesDir.exists()) {
         modulesDir.mkpath(".");
     }
+#else
+    QString target = modulesPath();
+    if (!QDir(target).exists())
+    {
+        QDir().mkpath(target);
+    }
+    QString src = QDir(QCoreApplication::applicationDirPath()).filePath("../Resources/modules/");
+    copyRecursively(src, target);
 #endif
 
     app.setStyle("fusion");

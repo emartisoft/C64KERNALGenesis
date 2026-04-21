@@ -117,7 +117,6 @@ private:
     void setupRom(bool test=true);
     void launchApp(const QString &appPath, const QString &romPath, const QString &chargenPath="");
 
-    QString modulesPath() const;
     void    extractZip(const QString &zipPath);
     void    copyM64(const QString &filePath);
 

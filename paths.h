@@ -9,5 +9,7 @@
 QString appLocalDir();
 QString appConfigDir();
 QString tempDir();
+bool copyRecursively(const QString &srcPath, const QString &dstPath);
+QString modulesPath();
 
 #endif // PATHS_H
