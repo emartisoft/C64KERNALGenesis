@@ -47,14 +47,8 @@ bool copyRecursively(const QString &srcPath, const QString &dstPath)
 
 QString modulesPath()
 {
-    const QString appName = QCoreApplication::applicationName();
-
-#ifdef Q_OS_MACOS
     QString path = QStandardPaths::writableLocation(
         QStandardPaths::AppDataLocation
         );
     return QDir(path).filePath("modules");
-#else
-    return QDir(QCoreApplication::applicationDirPath()).filePath("modules");
-#endif
 }
