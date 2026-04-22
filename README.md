@@ -10,3 +10,29 @@ https://www.c64kernal.com/
 
 
 ![Screenshot](screenshot.png)
+
+## Build (Linux)
+
+**This project requires Qt 6.11 or newer.**
+
+### 1. Install Qt 6.11
+
+Download and install Qt using the official installer:
+https://www.qt.io/download
+
+### 2. Build
+```bash
+git clone https://github.com/emartisoft/C64KERNALGenesis.git
+cd C64KERNALGenesis
+
+mkdir build
+cd build
+
+cmake -DCMAKE_PREFIX_PATH=/path/to/Qt/6.11/gcc_64 ..
+cmake --build . -j
+```
+### 3. Notes
+
+**Do not use system Qt packages (apt, dnf, etc.), they may be too old.**
+
+Make sure CMAKE_PREFIX_PATH points to your Qt 6.11 installation.
