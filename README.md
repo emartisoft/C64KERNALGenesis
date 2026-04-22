@@ -8,6 +8,13 @@ The process is simple: download the tool, load your original ROM, select the mod
 #### More info
 https://www.c64kernal.com/
 
+## ⚠️ IMPORTANT
+
+**Free modules are not included by default.**
+
+Download `free_modules.zip` from GitHub Releases or the store, then load the modules directly from the application.
+
+
 
 ![Screenshot](screenshot.png)
 
