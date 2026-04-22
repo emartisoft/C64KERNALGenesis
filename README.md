@@ -36,3 +36,9 @@ cmake --build . -j
 **Do not use system Qt packages (apt, dnf, etc.), they may be too old.**
 
 Make sure CMAKE_PREFIX_PATH points to your Qt 6.11 installation.
+
+## Run AppImage (Linux)
+```bash
+chmod +x C64KERNALGenesis-*.AppImage
+./C64KERNALGenesis-*.AppImage
+```
